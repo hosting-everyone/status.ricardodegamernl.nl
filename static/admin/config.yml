@@ -57,6 +57,7 @@ collections:
       - {label: "Mark as resolved ✔", name: "resolved", widget: "boolean", required: false, default: false}
       - {label: "Hide this from the site (make it a draft) 👀", name: "draft", widget: "boolean", required: false, default: false}
       - {label: "Mark as informational ℹ", name: "informational", widget: "boolean", required: false, default: false}
+      - {label: "Pin to top of page", name: "pin", widget: "boolean", required: false, default: false}
       - {label: "End date & time (your time) ⌛", name: "resolvedWhen", widget: "datetime", required: false}
       - label: "Affected systems (use exact name, separated by commas) 🧐"
         name: "affected"
@@ -132,6 +133,11 @@ collections:
             - { label: "🇧🇷 Portuguese", value: "pt"}
             - { label: "🇲🇰 Македонски", value: "mk" }
             - { label: "🏳️ Tagalog", value: "tl" }
+            - { label: "🇯🇵 Japanese", value: "ja" }
+            - { label: "🇺🇦 Ukrainian", value: "uk" }
+            - { label: "🇸🇪 Swedish", value: "se" }
+            - { label: "🇮🇩 Indonesian", value: "id" }
+            - { label: "🇵🇱 Polska", value: "pl" }
           - label: 'Site language in code for html[lang]'
             hint: 'Use the ISO 639-1 defined abbreviations. Examples: en, lt, de. Fully explained here: https://github.com/cstate/cstate/wiki/Customization#changing-site-language'
             name: 'languageCode'
@@ -142,6 +148,65 @@ collections:
             widget: 'string'
             hint: 'Where is the site hosted? Hostname (and path) to the root. Prior to version 3, a slash was used which now works in local testing, but breaks certain features of cState like RSS feeds, so a correct example for production is: https://cstate.mnts.lt'
             default: '/'
+              
+          # REQUIRED BUT HIDDEN
+          - label: 'theme'
+            name: 'theme'
+            widget: 'hidden'
+            default: 'cstate'
+          - label: 'preserveTaxonomyNames'
+            name: 'preserveTaxonomyNames'
+            widget: 'hidden'
+            default: 'true'
+          - label: "taxonomies"
+            name: taxonomies
+            widget: "hidden"
+            fields:
+              - {label: "affected", name: "affected", widget: "hidden", default: "affected"}
+          - label: "Outputs (Do not touch!)"
+            name: outputs
+            widget: "hidden"
+            fields:
+              - label: "page"
+                name: page
+                widget: "list"
+                allow_add: false
+                default: ['html', 'json']
+              - label: "section"
+                name: section
+                widget: "list"
+                allow_add: false
+                default: ['html', 'json', 'rss']
+              - label: "home"
+                name: home
+                widget: "list"
+                allow_add: false
+                default: ['html', 'json', 'rss', 'svg']
+              - label: "term"
+                name: term
+                widget: "list"
+                allow_add: false
+                default: ['html', 'json', 'rss']
+          - label: "Output formats (Do not touch!)"
+            name: outputFormats
+            widget: "hidden"
+            fields:
+              - label: "svg"
+                name: svg 
+                fields:
+                - label: "isPlainText"
+                  name: isPlainText
+                  widget: "boolean"
+                  default: true
+                - label: "mediaType"
+                  name: mediaType
+                  default: "image/svg+xml"
+          - label: 'Enable Git info'
+            name: 'enableGitInfo'
+            widget: 'hidden'
+            required: false
+            default: true
+            
           # PARAMS
           - label: "Params"
             name: "params"
@@ -180,7 +245,7 @@ collections:
               - label: 'Show last modified date at bottom of issues'
                 name: 'enableLastMod'
                 widget: 'boolean'
-                hint: 'Experimental feature shows when changes occured based on Git info. Read the wiki for more: https://github.com/cstate/cstate/wiki/Customization#time'
+                hint: 'Experimental feature shows when changes occurred based on Git info. Read the wiki for more: https://github.com/cstate/cstate/wiki/Customization#time'
                 required: false
                 default: false
               - label: 'Use relative time (issue began x min ago)'
@@ -227,7 +292,7 @@ collections:
                 required: false
                 default: true
               - label: 'Disable dark mode'
-                hint: 'If your OS and browser supports prefers-color-scheme and the user opted into a dark mode, the status page will be darker. Some color choices may be overriden.'
+                hint: 'If your OS and browser supports prefers-color-scheme and the user opted into a dark mode, the status page will be darker. Some color choices may be overridden.'
                 name: 'disableDarkMode'
                 widget: 'boolean'
                 required: false
@@ -309,61 +374,3 @@ collections:
                 name: 'enableCustomHTML'
                 widget: 'boolean'
                 default: 'false'
-        # REQUIRED BUT HIDDEN
-        - label: 'theme'
-          name: 'theme'
-          widget: 'hidden'
-          default: 'cstate'
-        - label: 'preserveTaxonomyNames'
-          name: 'preserveTaxonomyNames'
-          widget: 'hidden'
-          default: 'true'
-        - label: "taxonomies"
-          name: taxonomies
-          widget: "hidden"
-          fields:
-            - {label: "affected", name: "affected", widget: "hidden", default: "affected"}
-        - label: "Outputs (Do not touch!)"
-          name: outputs
-          widget: "hidden"
-          fields:
-            - label: "page"
-              name: page
-              widget: "list"
-              allow_add: false
-              default: ['html', 'json']
-            - label: "section"
-              name: section
-              widget: "list"
-              allow_add: false
-              default: ['html', 'json', 'rss']
-            - label: "home"
-              name: home
-              widget: "list"
-              allow_add: false
-              default: ['html', 'json', 'rss', 'svg']
-            - label: "term"
-              name: term
-              widget: "list"
-              allow_add: false
-              default: ['html', 'json', 'rss']
-        - label: "Output formats (Do not touch!)"
-          name: outputFormats
-          widget: "hidden"
-          fields:
-            - label: "svg"
-              name: svg 
-              fields:
-              - label: "isPlainText"
-                name: isPlainText
-                widget: "boolean"
-                default: true
-              - label: "mediaType"
-                name: mediaType
-                default: "image/svg+xml"
-        - label: 'Enable Git info'
-          name: 'enableGitInfo'
-          widget: 'hidden'
-          hint: 'Docs: https://github.com/cstate/cstate/wiki/Customization#time'
-          required: false
-          default: true

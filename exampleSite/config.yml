@@ -76,7 +76,7 @@ languageCode: en
 # For enableMissingTranslationPlaceholders—
 # do not set it to true for languages other
 # than English! When tested with Lithuanian,
-# it would add unnecesary placeholders to
+# it would add unnecessary placeholders to
 # values that were intentionally empty.
 defaultContentLanguage: en
 
@@ -97,7 +97,7 @@ defaultContentLanguage: en
 #
 # Broken example:
 # baseUrl: /
-baseURL: https://cstate.mnts.lt
+baseURL: https://example.com
 
 # For features like Last modified, you
 # need to use a Git repository. If you
@@ -109,7 +109,7 @@ baseURL: https://cstate.mnts.lt
 #
 # We recommend to keep this at `true`.
 # BOOLEAN; `true`, `false`
-enableGitInfo: true
+enableGitInfo: false
 
 
 ############################################################
@@ -133,23 +133,27 @@ params:
   #   and the user can expand by clicking on the category
   #   (Requires JavaScript.)
   # - untitled boolean `untitled: true`
-  #   This would complerely hide the name of the category.
+  #   This would completely hide the name of the category.
   #   This is useful, if you do not want to use categories
   #   because you need to set an 'Uncategorized' category.
   #   Or it can be used alongside other categories.
   #
+  # These are case sensitive.
+  # 
   # For help, see the wiki:
   # https://github.com/cstate/cstate/wiki/Customization
   categories:
     - name: North Coast
       description: The main servers are located here.
       closed: true
-    - name: East Coast
+    - name: Empty Category
     - name: Uncategorized
       untitled: true
 
   # These are your systems. Change them to
   # change the amount of components.
+  #
+  # These are case sensitive.
   #
   # For help, see the wiki:
   # https://github.com/cstate/cstate/wiki/Customization
@@ -157,7 +161,11 @@ params:
     - name: Gateway
       category: North Coast
     - name: Backup Gateway
-      category: East Coast
+      category: North Coast
+    - name: Website
+      description: The web frontend for the application.
+      category: Uncategorized
+      link: https://example.com/
     - name: API
       description: The guts of the application.
       category: Uncategorized
@@ -180,7 +188,7 @@ params:
   # Should relative time (x min ago) be used?
   #
   # IMPORTANT: In the frontmatter, the dates MUST be in
-  # the UTC time zone for this to work preperly. If you 
+  # the UTC time zone for this to work properly. If you 
   # use Netlify CMS, all good — the CMS picks UTC time
   # by default. Otherwise, there may be very inaccurate
   # times if multiple time zones are in your issue files.
@@ -398,6 +406,7 @@ outputs:
     - html
     - json
     - rss
+    - svg
 
 outputFormats:
   svg:
